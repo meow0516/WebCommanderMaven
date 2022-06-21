@@ -4,4 +4,14 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+  <servlet>
+  	<servlet-name>Commander</servlet-name>
+  	<display-name>Commander</display-name>
+  	<description></description>
+  	<servlet-class>idv.controller.Commander</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>Commander</servlet-name>
+  	<url-pattern>/Commander</url-pattern>
+  </servlet-mapping>
 </web-app>
