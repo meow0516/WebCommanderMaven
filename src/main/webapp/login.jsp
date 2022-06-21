@@ -8,8 +8,8 @@
 </head>
 <body>
 	<form method="post" action="Login">
-		<input type="text" name="login" />
-		<button>login</button>
+		<input type="text" name="loginInfo" />
+		<button>Login</button>
 	</form>
 </body>
 </html>
