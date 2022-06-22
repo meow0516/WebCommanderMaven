@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=BIG5"
-    pageEncoding="BIG5"%>
-    <%@page import="java.util.*"%>
+	pageEncoding="BIG5"%>
+<%@page import="java.util.*"%>
 <%@page import="idv.model.*"%>
 <!DOCTYPE html>
 <html>
@@ -24,7 +24,10 @@
 			</form>
 		</div>
 		<div>
-			<span> Free Space: GB / </span> <span> Total Space: GB </span>
+			<span> Free Space: <%=request.getAttribute("usableSpace")%> GB
+				/
+			</span> <span> Total Space:<%=request.getAttribute("totalSpace")%> GB
+			</span>
 		</div>
 		<div>
 			History Path: <select name="History Path">
@@ -42,6 +45,40 @@
 					</tr>
 				</thead>
 				<tbody>
+					<%
+					List<FileInfo> folderList = (List<FileInfo>) request.getAttribute("folderList");
+					for (FileInfo folderItem : folderList) {
+					%>
+					<tr>
+						<td><input type="checkbox" class="selectFile folderCount"
+							value="<%=folderItem.getFileName()%>" /></td>
+						<td>
+							<form method="post" action="CommanderController">
+								<input type="hidden" name="nav"
+									value="<%=folderItem.getFileName()%>">
+								<button class="btn-link"><%=folderItem.getFileName()%></button>
+							</form>
+						</td>
+						<td><%=folderItem.getLastModified()%></td>
+						<td>DIR</td>
+					</tr>
+					<%
+					}
+					%>
+					<%
+					List<FileInfo> fileList = (List<FileInfo>) request.getAttribute("fileList");
+					for (FileInfo fileItem : fileList) {
+					%>
+					<tr>
+						<td><input type="checkbox" class="selectFile fileCount"
+							value="<%=fileItem.getFileName()%>" /></td>
+						<td><%=fileItem.getFileName()%></td>
+						<td><%=fileItem.getLastModified()%></td>
+						<td class="fileSize"><%=fileItem.getSize()%></td>
+					</tr>
+					<%
+					}
+					%>
 				</tbody>
 			</table>
 		</div>
@@ -49,8 +86,10 @@
 	<div>
 		<h3>Folder State</h3>
 
-		<span class="totalSize"></span>/ bytes | <span class="totalFileCount"></span>
-		/ files | <span class="totalFolderCount"></span> / dirs
+		<span class="totalSize"></span>/<%=request.getAttribute("totalSize")%>
+		bytes | <span class="totalFileCount"></span> /<%=request.getAttribute("fileCount")%>
+		files | <span class="totalFolderCount"></span> /<%=request.getAttribute("folderCount")%>
+		dirs
 
 	</div>
 	<div>
@@ -96,5 +135,14 @@ td {
 
 div {
 	padding-top: 10px;
+}
+
+.btn-link {
+	background: none;
+	border: none;
+	color: blue;
+	text-decoration: underline;
+	cursor: pointer;
+	font-size: 1em;
 }
 </style>
