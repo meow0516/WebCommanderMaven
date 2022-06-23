@@ -18,35 +18,26 @@ public class Commander extends HttpServlet {
 
 	private FileInfoService fileInfoService;
 	private DiskInfoService diskInfoService;
-	String serverPath;
 	String webpath;
 
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
 	public Commander() {
 		super();
 		this.fileInfoService = new FileInfoService();
 		this.diskInfoService = new DiskInfoService();
 	}
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		serverPath = request.getRealPath("/");
-		request.setAttribute("serverPath", serverPath);
-		webpath = serverPath;
-		
+		Object navPath=(String) request.getSession().getAttribute("navPath");
+		if(navPath !=null) {
+			webpath=(String) navPath;
+		}
+		else {
+			webpath = request.getRealPath("/");					
+		}
 		processRequest(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		processRequest(request, response);
@@ -65,7 +56,9 @@ public class Commander extends HttpServlet {
 		request.setAttribute("totalSize", fileInfoService.getTotalSize());
 		request.setAttribute("fileCount", fileInfoService.getFileCount());
 		request.setAttribute("folderCount", fileInfoService.getFolderCount());
-
+		
+		request.getSession().setAttribute("currentFolder", webpath);
+		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
 		dispatcher.forward(request, response);
 	}

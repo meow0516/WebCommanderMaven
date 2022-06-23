@@ -9,16 +9,16 @@
 <title>Web Commander(Maven)</title>
 </head>
 <body>
-	<div>Current Folder:</div>
+	<div>Current Folder:<%=session.getAttribute("currentFolder") %></div>
 	<div>
 		Drive:<select name="History Path">
 		</select>
 		<div>
-			<form method="post">
-				<input type="hidden" name="nav" value="rootPath" />
+			<form method="post" action="Navigation">
+				<input type="hidden" name="nav" value="rootFolder" />
 				<button>/</button>
 			</form>
-			<form method="post">
+			<form method="post" action="Navigation">
 				<input type="hidden" name="nav" value="prevFolder" />
 				<button>...</button>
 			</form>
@@ -53,7 +53,7 @@
 						<td><input type="checkbox" class="selectFile folderCount"
 							value="<%=folderItem.getFileName()%>" /></td>
 						<td>
-							<form method="post" action="CommanderController">
+							<form method="post" action="Navigation">
 								<input type="hidden" name="nav"
 									value="<%=folderItem.getFileName()%>">
 								<button class="btn-link"><%=folderItem.getFileName()%></button>
@@ -94,9 +94,8 @@
 	</div>
 	<div>
 		<div>
-			<form method="post">
-				<input type="hidden" name="webpath" /> <input type="text"
-					name="createItem">
+			<form method="post" action="CreateFile">
+				<input type="text" name="createItem">
 				<button>Create</button>
 			</form>
 		</div>
