@@ -22,6 +22,18 @@
   	<description></description>
   	<servlet-class>idv.controller.Logout</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>CreateFile</servlet-name>
+  	<display-name>CreateFile</display-name>
+  	<description></description>
+  	<servlet-class>idv.controller.CreateFile</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>Navigation</servlet-name>
+  	<display-name>Navigation</display-name>
+  	<description></description>
+  	<servlet-class>idv.controller.Navigation</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>Commander</servlet-name>
   	<url-pattern>/Commander</url-pattern>
@@ -33,5 +45,13 @@
   <servlet-mapping>
   	<servlet-name>Logout</servlet-name>
   	<url-pattern>/Logout</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>CreateFile</servlet-name>
+  	<url-pattern>/CreateFile</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>Navigation</servlet-name>
+  	<url-pattern>/Navigation</url-pattern>
   </servlet-mapping>
 </web-app>
