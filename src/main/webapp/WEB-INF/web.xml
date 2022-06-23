@@ -34,6 +34,18 @@
   	<description></description>
   	<servlet-class>idv.controller.Navigation</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>DeleteFile</servlet-name>
+  	<display-name>DeleteFile</display-name>
+  	<description></description>
+  	<servlet-class>idv.controller.DeleteFile</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>RenameFile</servlet-name>
+  	<display-name>RenameFile</display-name>
+  	<description></description>
+  	<servlet-class>idv.controller.RenameFile</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>Commander</servlet-name>
   	<url-pattern>/Commander</url-pattern>
@@ -53,5 +65,13 @@
   <servlet-mapping>
   	<servlet-name>Navigation</servlet-name>
   	<url-pattern>/Navigation</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>DeleteFile</servlet-name>
+  	<url-pattern>/DeleteFile</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>RenameFile</servlet-name>
+  	<url-pattern>/RenameFile</url-pattern>
   </servlet-mapping>
 </web-app>
