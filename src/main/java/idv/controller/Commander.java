@@ -1,6 +1,8 @@
 package idv.controller;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -19,6 +21,7 @@ public class Commander extends HttpServlet {
 	private FileInfoService fileInfoService;
 	private DiskInfoService diskInfoService;
 	String webpath;
+	Set<String> historyPath = new HashSet<String>();
 
 	public Commander() {
 		super();
@@ -28,12 +31,11 @@ public class Commander extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		Object navPath=(String) request.getSession().getAttribute("navPath");
-		if(navPath !=null) {
-			webpath=(String) navPath;
-		}
-		else {
-			webpath = request.getRealPath("/");					
+		Object navPath = (String) request.getSession().getAttribute("navPath");
+		if (navPath != null) {
+			webpath = (String) navPath;
+		} else {
+			webpath = request.getRealPath("/");
 		}
 		processRequest(request, response);
 	}
@@ -45,10 +47,12 @@ public class Commander extends HttpServlet {
 
 	private void processRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		fileInfoService.setFileInfos(webpath);
 		diskInfoService.setDiskInfo(webpath);
+		historyPath.add(webpath);
 
+		request.setAttribute("historyPath", historyPath);
 		request.setAttribute("usableSpace", diskInfoService.getUsableSpace());
 		request.setAttribute("totalSpace", diskInfoService.getTotalSpace());
 		request.setAttribute("folderList", fileInfoService.getFolderList());
@@ -56,9 +60,9 @@ public class Commander extends HttpServlet {
 		request.setAttribute("totalSize", fileInfoService.getTotalSize());
 		request.setAttribute("fileCount", fileInfoService.getFileCount());
 		request.setAttribute("folderCount", fileInfoService.getFolderCount());
-		
+
 		request.getSession().setAttribute("currentFolder", webpath);
-		
+
 		RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
 		dispatcher.forward(request, response);
 	}

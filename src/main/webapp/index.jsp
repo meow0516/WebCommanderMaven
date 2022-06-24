@@ -14,8 +14,6 @@
 	<div>
 		Current Folder:<%=session.getAttribute("currentFolder")%></div>
 	<div>
-		Drive:<select name="History Path">
-		</select>
 		<div>
 			<form method="post" action="Navigation">
 				<input type="hidden" name="nav" value="rootFolder" />
@@ -33,7 +31,15 @@
 			</span>
 		</div>
 		<div>
-			History Path: <select name="History Path">
+			History Path: <select>
+				<%
+				Set<String> historyPath = (Set<String>) request.getAttribute("historyPath");
+				for (String path : historyPath) {
+				%>
+				<option><%=path%></option>
+				<%
+				}
+				%>
 			</select>
 		</div>
 
@@ -95,8 +101,8 @@
 		</div>
 		<div>
 			<form method="post" action="RenameFile">
-				<input type="hidden" class="renameItem" name="renameItem" /> Rename as:<input
-					type="text" name="newFileName" />
+				<input type="hidden" class="renameItem" name="renameItem" /> Rename
+				as:<input type="text" name="newFileName" />
 				<button>Rename</button>
 			</form>
 		</div>
