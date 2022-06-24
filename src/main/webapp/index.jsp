@@ -7,9 +7,12 @@
 <head>
 <meta charset="BIG5">
 <title>Web Commander(Maven)</title>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
-	<div>Current Folder:<%=session.getAttribute("currentFolder") %></div>
+	<div>
+		Current Folder:<%=session.getAttribute("currentFolder")%></div>
 	<div>
 		Drive:<select name="History Path">
 		</select>
@@ -84,6 +87,27 @@
 		</div>
 	</div>
 	<div>
+		<div>
+			<form method="post" action="CreateFile">
+				<input type="text" name="createItem">
+				<button>Create</button>
+			</form>
+		</div>
+		<div>
+			<form method="post" action="RenameFile">
+				<input type="hidden" class="renameItem" name="renameItem" /> Rename as:<input
+					type="text" name="newFileName" />
+				<button>Rename</button>
+			</form>
+		</div>
+		<div>
+			<form method="post" action="DeleteFile">
+				<input type="hidden" name="deleteItem" class="deleteItem">
+				<button>Delete</button>
+			</form>
+		</div>
+	</div>
+	<div>
 		<h3>Folder State</h3>
 
 		<span class="totalSize"></span>/<%=request.getAttribute("totalSize")%>
@@ -93,32 +117,10 @@
 
 	</div>
 	<div>
-		<div>
-			<form method="post" action="CreateFile">
-				<input type="text" name="createItem">
-				<button>Create</button>
-			</form>
-		</div>
-		<div>
-			<form method="post">
-				<input type="hidden" name="webpath" /> <input type="text"
-					class="renameItem" name="renameItem" /> to:<input type="text"
-					name="newFileName" />
-				<button>Rename</button>
-			</form>
-		</div>
-		<div>
-			<form method="post">
-				<input type="hidden" name="webpath" /> <input type="text"
-					name="deleteItem" class="deleteItem">
-				<button>Delete</button>
-			</form>
-		</div>
+		<form method="post" action="Logout">
+			<Button>Logout</Button>
+		</form>
 	</div>
-
-	<form method="post" action="Logout">
-		<Button>Logout</Button>
-	</form>
 </body>
 </html>
 
@@ -145,3 +147,48 @@ div {
 	font-size: 1em;
 }
 </style>
+
+<script>
+	$(document).ready(
+			function() {
+				var selectItems = new Array();
+				var totalSelectedSize = 0;
+				var fileCount = 0;
+				var folderCount = 0;
+				$('.selectFile').on(
+						'change',
+						function() {
+							if ($(this).is(":checked")) {
+								selectItems.push($(this).val());
+								if ($(this).hasClass("fileCount")) {
+									fileCount += 1;
+									totalSelectedSize += parseInt($(this)
+											.parent().siblings('.fileSize')
+											.text());
+
+								} else if ($(this).hasClass("folderCount")) {
+									folderCount += 1;
+								}
+							}
+
+							else {
+								var x = selectItems.indexOf($(this).val());
+								selectItems.splice(x, 1);
+								if ($(this).hasClass("fileCount")) {
+									fileCount -= 1;
+									totalSelectedSize -= parseInt($(this)
+											.parent().siblings('.fileSize')
+											.text());
+								} else if ($(this).hasClass("folderCount")) {
+									folderCount -= 1;
+								}
+
+							}
+							$('.renameItem').val(selectItems);
+							$('.deleteItem').val(selectItems);
+							$('.totalFileCount').text(fileCount);
+							$('.totalFolderCount').text(folderCount);
+							$('.totalSize').text(totalSelectedSize);
+						})
+			});
+</script>
